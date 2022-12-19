@@ -29,6 +29,7 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -44,6 +45,7 @@ import com.bumptech.glide.request.transition.Transition;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.elevation.SurfaceColors;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.hdlight.wallpaperapps.BuildConfig;
 import com.hdlight.wallpaperapps.R;
@@ -144,6 +146,16 @@ public class WallPaperImageActivity extends BaseActivity implements View.OnClick
         binding.cardViewWallPaper.setOnClickListener(this);
 //        binding.imgBack.setOnClickListener(this);
 //        binding.txtApply.setOnClickListener(this);
+
+
+        int permissionExternalMemory = ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+
+        if (permissionExternalMemory == PackageManager.PERMISSION_DENIED){
+
+            Toast.makeText(this, "denied", Toast.LENGTH_SHORT).show();
+
+        }
+
     }
 
     public Bitmap StringToBitMap(String image) {
@@ -201,12 +213,18 @@ public class WallPaperImageActivity extends BaseActivity implements View.OnClick
             relativeProgressBar.setVisibility(View.VISIBLE);
             linearBottomSheetDialog.setVisibility(View.INVISIBLE);
 
+            verifyPermissions();
+
+
 
         });
 
 
         bottomSheetDialog.show();
     }
+
+
+
 
     private void shareImageandText(Bitmap bitmap) {
         Uri uri = getmageToShare(bitmap);
@@ -346,11 +364,13 @@ public class WallPaperImageActivity extends BaseActivity implements View.OnClick
 
             String[] STORAGE_PERMISSIONS = {Manifest.permission.WRITE_EXTERNAL_STORAGE};
             // If permission not granted then ask for permission real time.
-            ActivityCompat.requestPermissions(this, STORAGE_PERMISSIONS, 5000);
+//            ActivityCompat.requestPermissions(this, STORAGE_PERMISSIONS, 5000);
 
-
+            Toast.makeText(this, "hello", Toast.LENGTH_SHORT).show();
             return false;
         }
+
+
 
 
 
